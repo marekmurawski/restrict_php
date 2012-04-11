@@ -12,6 +12,11 @@ if (!defined('IN_CMS')) { exit(); }
 		Users having administrator role can <strong>always</strong> edit and create PHP code. By default the plugin also assigns the <strong>edit_parts_php</strong> permission
 		to developer role (if it exists).
 	</p>
+	<p>
+		A side effect of this plugin is ability to make page parts containing php code read only for unauthorised users. 
+		You just put any php code into part contents and users without <strong>edit_parts_php</strong> permission won't be able to alter this page part, 
+		however they <strong>can</strong> delete it!
+	</p>
 	<h3>
 		How to restrict PHP code in page parts?
 	</h3>
