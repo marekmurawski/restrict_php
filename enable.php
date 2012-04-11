@@ -48,7 +48,7 @@ if ($developerRole = Role::findByName('developer')) {
 		}
 	}
 } else {
-	$infoMessages[] = 'Developer role not found already exists!';
+	$infoMessages[] = 'Developer role not found!';
 }
 
 if ($success) {
