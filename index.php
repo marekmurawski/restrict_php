@@ -70,7 +70,7 @@ function restrict_php_part(&$part) {
 	if (preg_match($pattern, $part->content) ||
 	  preg_match($pattern, $oldpart->content)) {
 		$codeFound = TRUE;
-		Flash::set('info','found SCRIPT tag');
+		
 		//die;
 	}
 
@@ -78,7 +78,7 @@ function restrict_php_part(&$part) {
 	if ( (strpos($part->content,'<?') !== false) || 
 	  (strpos($part->content,'<%') !== false) ) {
 		$codeFound = TRUE;
-		Flash::set('info','found standard or asp tag');
+		
 		//die;
 	}
 	if ($codeFound) {

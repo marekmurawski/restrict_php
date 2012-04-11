@@ -24,7 +24,7 @@ if (!defined('IN_CMS')) { exit(); }
 		You only need to enable the plugin. By default <strong>only administrators and developers</strong> can edit PHP code. This means that for example all users having only the standard Editor role are
 		<strong>not allowed to</strong>:
 	</p>
-			<ul>
+			<ul style="list-style-position: inside; list-style-type: disc; margin-left: 1em;">
 				<li>add PHP code blocks into page part content</li>
 				<li>edit page parts which already contain PHP code (created by administrator or developer).</li>
 			</ul>
@@ -34,9 +34,7 @@ if (!defined('IN_CMS')) { exit(); }
 	<p>
 		A specific user can be granted PHP editing permission in two ways:
 	</p>
-			<ul>
+			<ul style="list-style-position: inside; list-style-type: disc; margin-left: 1em;">
 				<li>by assigning <strong>Editor Php</strong> role to a selected user individually in standard Wolf Users administration tab</li>
 				<li>by assigning <strong>edit_parts_php</strong> permission to an existing role using <strong>Roles Manager</strong> plugin by andrewmman (found in Wolf CMS repository)</li>
 			</ul>
-
-</div>
