@@ -40,88 +40,44 @@ Observer::observe('page_edit_before_save', 'restrict_php_page_before_save');
 
 
 Observer::observe('page_edit_after_save', 'show_restrict_php_edit_error');
-Observer::observe('page_add_after_save', 'display_restrict_php_add_error');
+Observer::observe('page_add_after_save', 'show_restrict_php_add_error');
 
 function restrict_php_page_before_save(& $page) {
-//	$old_parts = PagePart::findByPageId($page->id);
-//	//$post_parts = $_POST['part'];
-//		foreach ($_POST['part'] as $post_part) {
-//			$tmp_part = new PagePart($post_part);
-//			$tmp_part->page_id = $page->id;
-//			
-//			$post_parts[] = $tmp_part;
-//		}
-	
-            $post_parts = $_POST['part'];
-	    if (count($post_parts) < 1) {
-		    Flash::set('error',__('You cannot delete all page-parts'));
-		    redirect(get_url('page/edit/').$page->id);
-	    }
-            //Flash::set('post_parts_data', (object) $post_parts);
-            $old_parts = PagePart::findByPageId($page->id);
 
-                // check if all old page part are passed in POST
-                // if not ... we need to delete it!
-		foreach ($old_parts as $old_part) {
-                    unset($old_part->content_html);
-		    $not_in = true;
-                    foreach ($post_parts as $part_id => $data) {
-                        $data['name'] = trim($data['name']);
-                        if ($old_part->name == $data['name']) {
-                            $not_in = false; // PART FOUND ->> Not deleted
-			    //$new_post_parts[$part_id] = get_object_vars($old_part);
-			    
-			    $new_post_parts[$part_id] = $post_parts[$part_id];
-                            
-			    // this will not really create a new page part because
-                            // the id of the part is passed in $data
-                            // $part = new PagePart($data);
-                            // $part->page_id = $id;
+	$post_parts = $_POST['part'];
+	if (count($post_parts) < 1) {
+		Flash::set('error', __('You cannot delete all page-parts'));
+		redirect(get_url('page/edit/') . $page->id);
+	}
 
-                            unset($post_parts[$part_id]);
+	$old_parts = PagePart::findByPageId($page->id);
 
-                            break;
-                        }
-                    }
+	foreach ($old_parts as $old_part) { // traverse all existing parts
+		unset($old_part->content_html); // delete content_html, it's not needed
+		$not_in = true;
+		foreach ($post_parts as $part_id => $data) {
+			$data['name'] = trim($data['name']);
+			if ($old_part->name == $data['name']) {
+				$not_in = false; // PART FOUND ->> Not deleted
+				$new_post_parts[$part_id] = $post_parts[$part_id]; // save it
+				unset($post_parts[$part_id]);
 
-                    if ($not_in) { // PART DELETED
-                        //$old_part->delete();
-			    echo $old_part->name . " - DELETED ";
-			    if (has_php_code($old_part->content)) { // @todo check if user could delete it????
-				    // echo "and it HAD PHP code";
-				    if (!AuthUser::hasPermission('edit_parts_php')) {
-					// echo "but user " . AuthUser::getUserName() . " can't delete it, so it's restored";
-					//$post_parts[$part_id] = $old_part;
-					$new_post_parts[] = get_object_vars($old_part);
-				    }
-			    } else { echo 'but it had no php code';};
-			    echo '<br/>';
+				break;
 			}
-                }
-		if (isset($new_post_parts)) { 
-		$new_post_parts = array_merge($new_post_parts, $post_parts);
 		}
 
-	
-	
-//	echo '<table style="vertical-align: top; width: 100%"><tr><td><h1>POST PARTS:</h1><pre>';
-//	print_r($post_parts);
-//	echo '</pre></td><td>';
-//	echo '<h1>EXISTING PARTS:</h1><pre>';
-//	print_r($old_parts);
-//	echo '</pre></td><td>';
-//	echo '<h1>POST-MODIFIED PARTS:</h1><pre>';
-//	print_r($new_post_parts);
-//	echo '</pre></td></tr></table>';
-//	$_POST['part'] = $new_post_parts; // RESTORE $_POST['part'] so it has deleted, but forbidden page parts
-//	echo '<h1>NEW POST PARTS:</h1><pre>';
-//	print_r($_POST['part']);
-//	echo '</pre>';
-	
-		//die;
-		
+		if ($not_in) { // current $old_part seems to be pending deletion
+			if (has_php_code($old_part->content)) { // if it has PHP code
+				if (!AuthUser::hasPermission('edit_parts_php')) { // and user can't edit PHP code
+					$new_post_parts[] = get_object_vars($old_part); //restore the part
+				}
+			}
+		}
+	}
+	if (isset($new_post_parts)) {
+		$new_post_parts = array_merge($new_post_parts, $post_parts);
+	}
 	return $page;
-
 }
 
 function show_restrict_php_edit_error($page) {
@@ -132,20 +88,23 @@ function show_restrict_php_edit_error($page) {
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
 		);
 	}
+	Flash::set('info', Flash::get('php_debug'));
 	return $page;
 	die;
 }
 
-function display_restrict_php_add_error($page) {
+function show_restrict_php_add_error($page) {
 	if ($restr_parts = Flash::get('php_restricted_parts')) {
 		Flash::set('error', __("You CAN'T add PHP code into page parts. The following parts were cleared:") . '<br/><strong>' .
 		  implode('<br/>', $restr_parts) . '</strong><br/>' .
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
 		);
 	}
+	Flash::set('info', Flash::get('php_debug'));
 	return $page;
 	die;
 }
+
 function has_php_code($text) {
 	$codeFound = FALSE;
 
@@ -157,9 +116,10 @@ function has_php_code($text) {
 		$codeFound = TRUE;
 	}
 
-	// SEARCHING FOR standard and short and ASP style PHP opening tags
-	if ((strpos($text, '<?') !== false) ||
-	  (strpos($text, '<%') !== false)) {
+	// SEARCHING FOR standard and short and ASP style PHP opening tags	
+	$pattern = '#\<(\?|%)(?!xml)#si';
+
+	if (preg_match($pattern, $text)) {
 		$codeFound = TRUE;
 	}
 	return $codeFound;
@@ -169,20 +129,16 @@ function restrict_php_part(&$part) {
 	$oldpart = PagePart::findByIdFrom('PagePart', $part->id);
 	$codeFound = FALSE;
 
-	// SEARCHING FOR VARIANTS OF "script language=php" PHP opening tags
-	// WARNING!!! This is not guaranteed to be safe!!!
-	// IF YOU FIND ANY VULNERABILITIES PLEASE LET ME KNOW	
-	$pattern = '#\<[\s]*script[\s]+lang.*=.*[\'"\s]*php[\s\'"]*\>#si';
-	if (preg_match($pattern, $part->content) ||
-	  preg_match($pattern, $oldpart->content)) {
-		$codeFound = TRUE;
-	}
+			$php_debug = Flash::get('php_debug');
+			$php_debug .=
+			htmlentities($part->content) .
+			"<br>" .
+			htmlentities($oldpart->content) .
+			"<br><br>";
+			flash::setNow('php_debug', $php_debug);
 
-	// SEARCHING FOR standard and short and ASP style PHP opening tags
-	if ((strpos($part->content, '<?') !== false) ||
-	  (strpos($part->content, '<%') !== false)) {
-		$codeFound = TRUE;
-	}
+
+	$codeFound = (has_php_code($part->content) || has_php_code($oldpart->content));
 
 	if ($codeFound) {
 		if ($oldpart->content !== $part->content) { // the content has changed
