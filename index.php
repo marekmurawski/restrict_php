@@ -6,9 +6,10 @@ if (!defined('IN_CMS')) {
 }
 
 /**
- * The skeleton plugin serves as a basic plugin template.
- *
- *
+ * Restrict PHP Plugin for Wolf CMS.
+ * Provides PHP code restriction in page parts based on roles and/or permissions
+ * 
+ * 
  * @package Plugins
  * @subpackage restrict_php
  *
@@ -62,7 +63,7 @@ function display_restrict_php_add_error($page) {
 function restrict_php_part(&$part) {
 	$oldpart = PagePart::findByIdFrom('PagePart', $part->id);
 	$codeFound = FALSE;
-	
+
 	// SEARCHING FOR VARIANTS OF < script language = php > PHP opening tags
 	// WARNING!!! This is not guaranteed to be safe!!!
 	// IF YOU FIND ANY VULNERABILITIES PLEASE LET ME KNOW	
@@ -70,17 +71,14 @@ function restrict_php_part(&$part) {
 	if (preg_match($pattern, $part->content) ||
 	  preg_match($pattern, $oldpart->content)) {
 		$codeFound = TRUE;
-		
-		//die;
 	}
 
 	// SEARCHING FOR standard and short and ASP style PHP opening tags
-	if ( (strpos($part->content,'<?') !== false) || 
-	  (strpos($part->content,'<%') !== false) ) {
+	if ((strpos($part->content, '<?') !== false) ||
+	  (strpos($part->content, '<%') !== false)) {
 		$codeFound = TRUE;
-		
-		//die;
 	}
+
 	if ($codeFound) {
 		if ($oldpart->content !== $part->content) { // the content has changed
 			if (!AuthUser::hasPermission('edit_parts_php')) {

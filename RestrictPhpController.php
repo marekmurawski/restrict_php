@@ -22,9 +22,9 @@ class RestrictPhpController extends PluginController {
 			$this->display('restrict_php/views/documentation/' . $lang);
 	}
 
-	function settings() {
-		$this->display('restrict_php/views/settings', Plugin::getAllSettings('skeleton'));
-	}
+//	function settings() {
+//		$this->display('restrict_php/views/settings', Plugin::getAllSettings('skeleton'));
+//	}
 	
 	function index() {
 		redirect(get_url('plugin/restrict_php/documentation'));
