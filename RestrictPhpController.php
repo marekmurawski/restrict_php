@@ -16,7 +16,6 @@ class RestrictPhpController extends PluginController {
 		$lang = ( $user = AuthUser::getRecord() ) ? strtolower($user->language) : 'en';
 
 		if (!file_exists(PLUGINS_ROOT . DS . 'restrict_php' . DS . 'views/documentation/' . $lang . '.php')) {
-			$message = __("There's no translation for the documentation in your language, displaying the default english.");
 			$this->display('restrict_php/views/documentation/en', array('message' => $message));
 		}
 		else

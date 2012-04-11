@@ -40,7 +40,7 @@ function show_restrict_php_edit_error($page) {
 	if ($restr_parts = Flash::get('php_restricted_parts')) {
 		Flash::set('error', __("You CAN'T edit") . '<br/><strong>' .
 		  implode('<br/>', $restr_parts) . '</strong><br/>' .
-		  __('page parts because they contain PHP code.<br/>') .
+		  __('page parts because they contain PHP code.') . '<br/>' .
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
 		);
 	}
