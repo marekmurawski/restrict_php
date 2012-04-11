@@ -24,7 +24,7 @@ Plugin::setInfos(array(
 		'version' => '0.0.1',
 		'license' => 'GPL',
 		'author' => 'Marek Murawski',
-		'website' => 'http://www.wolfcms.org/',
+		'website' => 'http://www.marekmurawski.pl/',
 		//'update_url' => 'http://www.wolfcms.org/plugin-versions.xml',
 		'require_wolf_version' => '0.7.5'
 ));
@@ -64,7 +64,7 @@ function restrict_php_part(&$part) {
 	$oldpart = PagePart::findByIdFrom('PagePart', $part->id);
 	$codeFound = FALSE;
 
-	// SEARCHING FOR VARIANTS OF < script language = php > PHP opening tags
+	// SEARCHING FOR VARIANTS OF "script language=php" PHP opening tags
 	// WARNING!!! This is not guaranteed to be safe!!!
 	// IF YOU FIND ANY VULNERABILITIES PLEASE LET ME KNOW	
 	$pattern = '#\<[\s]*script[\s]+lang.*=.*[\'"\s]*php[\s\'"]*\>#si';
