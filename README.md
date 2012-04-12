@@ -6,7 +6,9 @@ When Restrict PHP plugin is enabled a new permission ***edit_parts_php*** and a 
 
 Users having administrator role can ***always*** edit and create PHP code. By default the plugin also assigns the ***edit_parts_php*** permission	to developer role (if it exists).
 
-A side effect of this plugin is ability to make page parts containing php code read only for unauthorised users. You just put _any_ php code into part contents and users without ***edit_parts_php*** permission won't be able to alter this page part, however they ***can*** delete it!
+A side effect of this plugin is ability to make page parts containing php code read only for unauthorised users. You just put _any_ php code into part contents and users without ***edit_parts_php*** permission won't be able to alter this page part
+
+Unauthorised users *can't delete* page-parts containing PHP code (new in 0.0.2).
 
 ## Installation & Documentation
 

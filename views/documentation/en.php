@@ -6,7 +6,7 @@ if (!defined('IN_CMS')) {
 
 <h1><?php echo __('Documentation'); ?></h1>
 
-<h1>Restrict PHP plugin</h1>
+<h2>Restrict PHP plugin</h2>
 <div>
 	<p>
 		This plugin provides way to restrict certain users or group of users (roles) from creating and editing PHP code in page parts. Essentially it checks for existence of PHP opening tags
@@ -19,7 +19,7 @@ if (!defined('IN_CMS')) {
 	<p>
 		A side effect of this plugin is ability to make page parts containing php code read only for unauthorised users. 
 		You just put any php code into part contents and users without <strong>edit_parts_php</strong> permission won't be able to alter this page part. 
-		Unauthorised users can't delete page-parts containing PHP code (new in 0.0.2).
+		Unauthorised users <strong>can't delete</strong> page-parts containing PHP code (new in 0.0.2).
 	</p>
 	<h3>
 		How to restrict PHP code in page parts?
