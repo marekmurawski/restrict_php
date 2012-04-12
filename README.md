@@ -8,7 +8,7 @@ Users having administrator role can ***always*** edit and create PHP code. By de
 
 A side effect of this plugin is ability to make page parts containing php code read only for unauthorised users. You just put _any_ php code into part contents and users without ***edit_parts_php*** permission won't be able to alter this page part
 
-Unauthorised users *can't delete* page-parts containing PHP code (new in 0.0.2).
+Unauthorised users ***can't delete*** page-parts containing PHP code (new in 0.0.2).
 
 ## Installation & Documentation
 
