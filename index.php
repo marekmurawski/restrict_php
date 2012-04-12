@@ -36,19 +36,20 @@ Plugin::addController('restrict_php', __('Restrict PHP'), 'administrator', true)
 Observer::observe('part_edit_before_save', 'restrict_php_part');
 Observer::observe('part_add_before_save', 'restrict_php_part');
 
-Observer::observe('page_edit_before_save', 'restrict_php_page_before_save');
-
+Observer::observe('page_edit_before_save', 'restrict_part_deleting');
 
 Observer::observe('page_edit_after_save', 'show_restrict_php_edit_error');
 Observer::observe('page_add_after_save', 'show_restrict_php_add_error');
 
-function restrict_php_page_before_save(& $page) {
+function restrict_part_deleting(& $page) {
 
 	$post_parts = $_POST['part'];
 	if (count($post_parts) < 1) {
 		Flash::set('error', __('You cannot delete all page-parts'));
 		redirect(get_url('page/edit/') . $page->id);
 	}
+	
+	$dodie = false;
 
 	$old_parts = PagePart::findByPageId($page->id);
 
@@ -70,6 +71,7 @@ function restrict_php_page_before_save(& $page) {
 			if (has_php_code($old_part->content)) { // if it has PHP code
 				if (!AuthUser::hasPermission('edit_parts_php')) { // and user can't edit PHP code
 					$new_post_parts[] = get_object_vars($old_part); //restore the part
+					$dodie = true;
 				}
 			}
 		}
@@ -77,6 +79,28 @@ function restrict_php_page_before_save(& $page) {
 	if (isset($new_post_parts)) {
 		$new_post_parts = array_merge($new_post_parts, $post_parts);
 	}
+
+	
+	
+//	echo '<table style="vertical-align: top; width: 100%"><tr><td><h1>POST PARTS:</h1><pre>';
+//	echo htmlentities(print_r($_POST['part'],true));
+//	echo '</pre></td><td>';
+//	echo '<h1>EXISTING PARTS:</h1><pre>';
+//	echo htmlentities(print_r($old_parts,true));
+//	echo '</pre></td><td>';
+//	echo '<h1>POST-MODIFIED PARTS:</h1><pre>';
+//	echo htmlentities(print_r($new_post_parts,true));
+//	echo '</pre></td></tr></table>';
+	
+	$_POST['part'] = $new_post_parts; // RESTORE $_POST['part'] so it has deleted, but forbidden page parts
+
+//	echo '<h1>NEW POST PARTS:</h1><pre>';
+//	echo htmlentities(print_r($_POST['part'],true));
+//	echo '</pre>';
+//	//ob_flush();
+//	sleep(3);
+//	//if ($dodie) die;
+		
 	return $page;
 }
 
@@ -105,32 +129,13 @@ function show_restrict_php_add_error($page) {
 	die;
 }
 
-function has_php_code($text) {
-	$codeFound = FALSE;
-
-	// SEARCHING FOR VARIANTS OF "script language=php" PHP opening tags
-	// WARNING!!! This is not guaranteed to be safe!!!
-	// IF YOU FIND ANY VULNERABILITIES PLEASE LET ME KNOW	
-	$pattern = '#\<[\s]*script[\s]+lang.*=.*[\'"\s]*php[\s\'"]*\>#si';
-	if (preg_match($pattern, $text)) {
-		$codeFound = TRUE;
-	}
-
-	// SEARCHING FOR standard and short and ASP style PHP opening tags	
-	$pattern = '#\<(\?|%)(?!xml)#si';
-
-	if (preg_match($pattern, $text)) {
-		$codeFound = TRUE;
-	}
-	return $codeFound;
-}
 
 function restrict_php_part(&$part) {
 	$oldpart = PagePart::findByIdFrom('PagePart', $part->id);
 	$codeFound = FALSE;
 
 			$php_debug = Flash::get('php_debug');
-			$php_debug .=
+			$php_debug .= 
 			htmlentities($part->content) .
 			"<br>" .
 			htmlentities($oldpart->content) .
@@ -151,4 +156,24 @@ function restrict_php_part(&$part) {
 		}
 	}
 	return $part;
+}
+
+function has_php_code($text) {
+	$codeFound = FALSE;
+
+	// SEARCHING FOR VARIANTS OF "script language=php" PHP opening tags
+	// WARNING!!! This is not guaranteed to be safe!!!
+	// IF YOU FIND ANY VULNERABILITIES PLEASE LET ME KNOW	
+	$pattern = '#\<[\s]*script[\s]+lang.*=.*[\'"\s]*php[\s\'"]*\>#si';
+	if (preg_match($pattern, $text)) {
+		$codeFound = TRUE;
+	}
+
+	// SEARCHING FOR standard and short and ASP style PHP opening tags	
+	$pattern = '#\<(\?|%)(?!xml)#si';
+
+	if (preg_match($pattern, $text)) {
+		$codeFound = TRUE;
+	}
+	return $codeFound;
 }
