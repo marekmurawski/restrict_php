@@ -92,7 +92,8 @@ function show_restrict_php_edit_error($page) {
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
 		);
 	}
-	Flash::set('info', Flash::get('php_debug'));
+//	Flash::set('info', Flash::get('php_debug'));
+	Flash::set('info', __('Some page parts were not updated due to "PHP edit" permission restrictions!'));	
 	return $page;
 	die;
 }
@@ -105,6 +106,7 @@ function show_restrict_php_add_error($page) {
 		);
 	}
 //	Flash::set('info', Flash::get('php_debug'));
+	Flash::set('info', __('Some page parts were not updated due to "PHP edit" permission restrictions!'));	
 	return $page;
 //	die;
 }
