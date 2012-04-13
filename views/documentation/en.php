@@ -10,7 +10,8 @@ if (!defined('IN_CMS')) {
 <div>
 	<p>
 		This plugin provides way to restrict certain users or group of users (roles) from creating and editing PHP code in page parts. Essentially it checks for existence of PHP opening tags
-		in page part content while saving the page part data.</p>
+		in page part content while saving the page part data.
+	</p>
 	<p>
 		When Restrict PHP plugin is enabled a new permission <strong>edit_parts_php</strong> and a new role <strong>Php Editor</strong> is added. 
 		Users having administrator role can <strong>always</strong> edit and create PHP code. By default the plugin also assigns the <strong>edit_parts_php</strong> permission
