@@ -1,6 +1,9 @@
 <?php
+
 /* Security measure */
-if (!defined('IN_CMS')) { exit(); }
+if (!defined('IN_CMS')) {
+	exit();
+}
 
 /**
  * Restrict PHP Plugin for Wolf CMS.
