@@ -80,26 +80,8 @@ function restrict_part_deleting(& $page) {
 		$new_post_parts = array_merge($new_post_parts, $post_parts);
 	}
 
-	
-	
-//	echo '<table style="vertical-align: top; width: 100%"><tr><td><h1>POST PARTS:</h1><pre>';
-//	echo htmlentities(print_r($_POST['part'],true));
-//	echo '</pre></td><td>';
-//	echo '<h1>EXISTING PARTS:</h1><pre>';
-//	echo htmlentities(print_r($old_parts,true));
-//	echo '</pre></td><td>';
-//	echo '<h1>POST-MODIFIED PARTS:</h1><pre>';
-//	echo htmlentities(print_r($new_post_parts,true));
-//	echo '</pre></td></tr></table>';
-	
-	$_POST['part'] = $new_post_parts; // RESTORE $_POST['part'] so it has deleted, but forbidden page parts
 
-//	echo '<h1>NEW POST PARTS:</h1><pre>';
-//	echo htmlentities(print_r($_POST['part'],true));
-//	echo '</pre>';
-//	//ob_flush();
-//	sleep(3);
-//	//if ($dodie) die;
+	$_POST['part'] = $new_post_parts; // RESTORE $_POST['part'] so it has deleted, but forbidden page parts
 		
 	return $page;
 }
