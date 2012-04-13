@@ -4,7 +4,7 @@
 if (!defined('IN_CMS')) {
 	exit();
 }
-
+Flash::set('success', __('Successfully deactivated Restrict PHP plugin!'));
 /**
  * Restrict PHP Plugin for Wolf CMS.
  * Provides PHP code restriction in page parts based on roles and/or permissions

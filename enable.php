@@ -65,12 +65,12 @@ if ($developerRole = Role::findByName('developer')) {
 }
 
 if ($success) {
-	Flash::set('success', __('Successfully enabled PHP restrict plugin!'));
+	Flash::set('success', __('Successfully activated Restrict PHP plugin!'));
 	if (isset($infoMessages)) {
 		Flash::set('info',implode('<br/>', $infoMessages));
 	}
 } else {
-	Flash::set('error', __('A problems occured while enabling restrict PHP plugin:') . '<br/>' .
+	Flash::set('error', __('A problems occured while activating restrict PHP plugin:') . '<br/>' .
 	  implode('<br/>', $errorMessages));
 }
 
