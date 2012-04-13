@@ -31,8 +31,6 @@ Plugin::setInfos(array(
 
 Plugin::addController('restrict_php', __('Restrict PHP'), 'administrator', true);
 
-
-
 Observer::observe('part_edit_before_save', 'restrict_php_part');
 Observer::observe('part_add_before_save', 'restrict_php_part');
 
