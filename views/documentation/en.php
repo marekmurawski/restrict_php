@@ -19,6 +19,8 @@ if (!defined('IN_CMS')) {
 	<p>
 		A side effect of this plugin is ability to make page parts containing php code read only for unauthorised users. 
 		You just put any php code into part contents and users without <strong>edit_parts_php</strong> permission won't be able to alter this page part. 
+	</p>
+	<p>
 		Unauthorised users <strong>can't delete</strong> page-parts containing PHP code (new in 0.0.2).
 	</p>
 	<h3>
