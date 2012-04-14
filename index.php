@@ -92,7 +92,7 @@ function show_restrict_php_edit_error($page) {
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
 		);
 	}
-//	Flash::set('info', Flash::get('php_debug'));
+
 	Flash::set('info', __('Some page parts were not updated due to "PHP edit" permission restrictions!'));	
 	return $page;
 	die;
@@ -105,25 +105,16 @@ function show_restrict_php_add_error($page) {
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
 		);
 	}
-//	Flash::set('info', Flash::get('php_debug'));
+
 	Flash::set('info', __('Some page parts were not updated due to "PHP edit" permission restrictions!'));	
 	return $page;
-//	die;
+
 }
 
 
 function restrict_php_part(&$part) {
 	$oldpart = PagePart::findByIdFrom('PagePart', $part->id);
 	$codeFound = FALSE;
-
-//			$php_debug = Flash::get('php_debug');
-//			$php_debug .= 
-//			htmlentities($part->content) .
-//			"<br>" .
-//			htmlentities($oldpart->content) .
-//			"<br><br>";
-//			flash::setNow('php_debug', $php_debug);
-
 
 	$codeFound = (has_php_code($part->content) || has_php_code($oldpart->content));
 
