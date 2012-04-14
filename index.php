@@ -141,21 +141,21 @@ function restrict_php_part(&$part) {
 }
 
 function has_php_code($text) {
-	$codeFound = FALSE;
+	$codeFound = TRUE;
 
 	// SEARCHING FOR VARIANTS OF "script language=php" PHP opening tags
 	// WARNING!!! This is not guaranteed to be safe!!!
 	// IF YOU FIND ANY VULNERABILITIES PLEASE LET ME KNOW	
 	$pattern = '#\<[\s]*script[\s]+lang.*=.*[\'"\s]*php[\s\'"]*\>#si';
-	if (preg_match($pattern, $text)) {
-		$codeFound = TRUE;
+	if (preg_match($pattern, $text) !== 1) {
+		$codeFound = FALSE;
 	}
 
 	// SEARCHING FOR standard and short and ASP style PHP opening tags	
 	$pattern = '#\<(\?|%)(?!xml)#si';
 
-	if (preg_match($pattern, $text)) {
-		$codeFound = TRUE;
+	if (preg_match($pattern, $text) !== 1) {
+		$codeFound = FALSE;
 	}
 	return $codeFound;
 }
