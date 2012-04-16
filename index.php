@@ -43,7 +43,7 @@ function restrict_part_deleting(& $page) {
 
 	$post_parts = $_POST['part'];
 	if (count($post_parts) < 1) {
-		Flash::set('error', __('You cannot delete all page-parts'));
+		Flash::set('error', __('You cannot delete all page-parts. At least one must remain!'));
 		redirect(get_url('page/edit/') . $page->id);
 	}
 	
@@ -86,7 +86,7 @@ function restrict_part_deleting(& $page) {
 
 function show_restrict_php_edit_error($page) {
 	if ($restr_parts = Flash::get('php_restricted_parts')) {
-		Flash::set('error', __("You CAN'T edit") . '<br/><strong>' .
+		Flash::set('error', __("You can't edit") . '<br/><strong>' .
 		  implode('<br/>', $restr_parts) . '</strong><br/>' .
 		  __('page parts because they contain PHP code.') . '<br/>' .
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
