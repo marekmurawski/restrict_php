@@ -91,11 +91,10 @@ function show_restrict_php_edit_error($page) {
 		  __('page parts because they contain PHP code.') . '<br/>' .
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
 		);
+	Flash::set('info', __('Some page parts were not updated due to "PHP edit" permission restrictions!'));	
 	}
 
-	Flash::set('info', __('Some page parts were not updated due to "PHP edit" permission restrictions!'));	
 	return $page;
-	die;
 }
 
 function show_restrict_php_add_error($page) {
@@ -104,11 +103,10 @@ function show_restrict_php_add_error($page) {
 		  implode('<br/>', $restr_parts) . '</strong><br/>' .
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
 		);
+	Flash::set('info', __('Some page parts were not updated due to "PHP edit" permission restrictions!'));	
 	}
 
-	Flash::set('info', __('Some page parts were not updated due to "PHP edit" permission restrictions!'));	
 	return $page;
-
 }
 
 
