@@ -24,9 +24,9 @@ if (!Permission::findByName('edit_parts_php')) {
 	if (!$perm->save()) {
 		$success = false;
 		$errorMessages[] = __('Could not create edit_parts_php permission!');
-	} else $infoMessages[] = 'Created edit_parts_permission!';
+	} else $infoMessages[] = __('Created edit_parts_permission!');
 } else {
-	$infoMessages[] = 'edit_parts_permission already exists!';
+	$infoMessages[] = __('edit_parts_permission already exists!');
 }
 
 if (!Role::findByName('php editor')) {
@@ -34,9 +34,9 @@ if (!Role::findByName('php editor')) {
 	if (!$role->save()) {
 		$success = false;
 		$errorMessages[] = __('Could not create Php Editor role!');
-	} else $infoMessages[] = 'Created Php Editor role!';
+	} else $infoMessages[] = __('Created Php Editor role!');
 } else {
-	$infoMessages[] = 'Php Editor role already exists!';
+	$infoMessages[] = __('Php Editor role already exists!');
 }
 
 $perm = Permission::findByName('edit_parts_php');
@@ -46,7 +46,7 @@ if (!($role && $perm)) {
 	if (!$rp->save()) {
 		$success = false;
 		$errorMessages[] = __('Could not assign edit_parts_php permission to Php Editor role!');
-	} else $infoMessages[] = 'Assigned edit_parts_php permission to Php Editor role!';
+	} else $infoMessages[] = __('Assigned edit_parts_php permission to Php Editor role!');
 }
 
 if ($developerRole = Role::findByName('developer')) {
@@ -58,10 +58,10 @@ if ($developerRole = Role::findByName('developer')) {
 		if (!RolePermission::savePermissionsFor($developerRole->id, $rp)) {
 			$success = false;
 			$errorMessages[] = __('Could not assign edit_parts_php permission to Developer role!');
-		} else $infoMessages[] = 'Assigned edit_parts_php permission to Developer role!';
+		} else $infoMessages[] = __('Assigned edit_parts_php permission to Developer role!');
 	}
 } else {
-	$infoMessages[] = 'Developer role not found!';
+	$infoMessages[] = __('Developer role not found!');
 }
 
 if ($success) {
@@ -70,7 +70,7 @@ if ($success) {
 		Flash::set('info',implode('<br/>', $infoMessages));
 	}
 } else {
-	Flash::set('error', __('A problems occured while activating restrict PHP plugin:') . '<br/>' .
+	Flash::set('error', __('Problems occured while activating restrict PHP plugin:') . '<br/>' .
 	  implode('<br/>', $errorMessages));
 }
 
