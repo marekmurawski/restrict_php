@@ -25,8 +25,8 @@ Plugin::setInfos(array(
 		'license' => 'GPL',
 		'author' => 'Marek Murawski',
 		'website' => 'http://marekmurawski.pl/',
-		//'update_url' => 'http://www.wolfcms.org/plugin-versions.xml',
-		'require_wolf_version' => '0.7.5'
+		'update_url'  => 'http://marekmurawski.pl/static/wolfplugins/plugin-versions.xml',
+		'require_wolf_version' => '0.7.3' // 0.7.5SP-1 fix -> downgrading requirement to 0.7.3
 ));
 
 Plugin::addController('restrict_php', __('Restrict PHP'), 'administrator', true);
