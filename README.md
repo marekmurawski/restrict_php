@@ -1,4 +1,5 @@
-# Restrict PHP plugin
+Restrict PHP plugin
+===================
 
 This plugin provides way to restrict certain users or group of users (roles) from creating and editing PHP code in page parts. Essentially it checks for existence of PHP opening tags in page part content while saving the page part data.
 
@@ -10,7 +11,8 @@ A side effect of this plugin is ability to make page parts containing php code r
 
 Unauthorised users ***can't delete*** page-parts containing PHP code (new in 0.0.2).
 
-## Installation & Documentation
+Installation & Documentation
+----------------------------
 
 Restrict PHP Plugin can be installed into your WolfCMS by uploading it to <install location>/wolf/plugins/restrict_php and enabling it in Wolf administration panel.
 
