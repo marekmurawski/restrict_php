@@ -24,7 +24,7 @@ Plugin::setInfos(array(
 		'version' => '0.0.2',
 		'license' => 'GPL',
 		'author' => 'Marek Murawski',
-		'website' => 'http://www.marekmurawski.pl/',
+		'website' => 'http://marekmurawski.pl/',
 		//'update_url' => 'http://www.wolfcms.org/plugin-versions.xml',
 		'require_wolf_version' => '0.7.5'
 ));
