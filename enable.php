@@ -24,9 +24,9 @@ if (!Permission::findByName('edit_parts_php')) {
 	if (!$perm->save()) {
 		$success = false;
 		$errorMessages[] = __('Could not create edit_parts_php permission!');
-	} else $infoMessages[] = __('Created edit_parts_permission!');
+	} else $infoMessages[] = __('Created edit_parts_php permission!');
 } else {
-	$infoMessages[] = __('edit_parts_permission already exists!');
+	$infoMessages[] = __('edit_parts_php permission already exists!');
 }
 
 if (!Role::findByName('php editor')) {

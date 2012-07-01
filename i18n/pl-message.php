@@ -11,7 +11,7 @@
      */
 
     return array(
-    	'A problems occured while enabling restrict PHP plugin:' => 'Wystąpiły problemy podczas uruchamiania wtyczki:',
+    	'Problems occured while enabling restrict PHP plugin:' => 'Wystąpiły problemy podczas uruchamiania wtyczki Restrict PHP:',
 	'Contact site administrator if you need to edit PHP code in page parts.' => 'Skontaktuj się z administratorem jeśli potrzebujesz edytować kod PHP w częściach stron',
 	'Could not assign edit_parts_php permission to Developer role!' => 'Nie udało się przypisać uprawnienia edit_parts_php do roli developer',
 	'Could not assign edit_parts_php permission to Php Editor role!' => 'Nie udało się przypisać uprawnienia edit_parts_php do roli Php Editor',
@@ -25,4 +25,11 @@
 	"You CAN'T add PHP code into page parts. The following parts were cleared:" => 'NIE MOŻESZ dodawać kodu PHP do części stron. Następujące części zostały wyczyszczone:',
 	"You CAN'T edit" => 'Nie możesz edytować',
 	"page parts because they contain PHP code." => 'ponieważ te części zawierają kod PHP.',
+	'Created edit_parts_php permission!' => 'Utworzono uprawnienie edit_parts_php',
+	'edit_parts_php permission already exists!' => 'Uprawnienie edit_parts_php już istnieje!',
+	'Created Php Editor role!' => 'Utworzono rolę Php Editor',
+	'Php Editor role already exists!' => 'Rola Php Editor już istnieje!',
+	'Assigned edit_parts_php permission to Php Editor role!' => 'Przypisano uprawnienie edit_parts_php do roli Php Editor!',
+	'Assigned edit_parts_php permission to Developer role!' => 'Przypisano uprawnienie edit_parts_php do roli Developer!',
+	'Developer role not found!' => 'Nie znaleziono roli Developer!',
     );
