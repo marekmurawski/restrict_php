@@ -41,7 +41,7 @@ if (!Role::findByName('php editor')) {
 
 $perm = Permission::findByName('edit_parts_php');
 $role = Role::findByName('php editor');
-if (!($role && $perm)) {
+if (($role && $perm)) {
 	$rp = new RolePermission(array('permission_id' => $perm->id, 'role_id' => $role->id));
 	if (!$rp->save()) {
 		$success = false;
