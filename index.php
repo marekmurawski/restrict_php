@@ -21,7 +21,7 @@ Plugin::setInfos(array(
 		'id' => 'restrict_php',
 		'title' => __('Restrict PHP'),
 		'description' => __('Provides PHP code restriction in page parts based on roles and/or permissions'),
-		'version' => '0.0.3',
+		'version' => '0.0.4',
 		'license' => 'GPL',
 		'author' => 'Marek Murawski',
 		'website' => 'http://marekmurawski.pl/',
