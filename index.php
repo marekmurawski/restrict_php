@@ -47,8 +47,6 @@ function restrict_part_deleting(& $page) {
 		redirect(get_url('page/edit/') . $page->id);
 	}
 	
-	$dodie = false;
-
 	$old_parts = PagePart::findByPageId($page->id);
 
 	foreach ($old_parts as $old_part) { // traverse all existing parts
@@ -69,7 +67,9 @@ function restrict_part_deleting(& $page) {
 			if (has_php_code($old_part->content)) { // if it has PHP code
 				if (!AuthUser::hasPermission('edit_parts_php')) { // and user can't edit PHP code
 					$new_post_parts[] = get_object_vars($old_part); //restore the part
-					$dodie = true;
+					$info = Flash::get('info');
+					$info .= __('Restored part - :part', array(':part'=>$old_part->name))  . '<br/>';
+					Flash::set('info',$info);
 				}
 			}
 		}
@@ -79,7 +79,7 @@ function restrict_part_deleting(& $page) {
 	}
 
 
-	$_POST['part'] = $new_post_parts; // RESTORE $_POST['part'] so it has deleted, but forbidden page parts again
+	$_POST['part'] = $new_post_parts; // RESTORE $_POST['part'] so it again contains deleted but forbidden page parts
 		
 	return $page;
 }
@@ -91,9 +91,7 @@ function show_restrict_php_edit_error($page) {
 		  __('page parts because they contain PHP code.') . '<br/>' .
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
 		);
-	Flash::set('info', __('Some page parts were not updated due to "PHP edit" permission restrictions!'));	
 	}
-
 	return $page;
 }
 
@@ -103,9 +101,7 @@ function show_restrict_php_add_error($page) {
 		  implode('<br/>', $restr_parts) . '</strong><br/>' .
 		  __('Contact site administrator if you need to edit PHP code in page parts.')
 		);
-	Flash::set('info', __('Some page parts were not updated due to "PHP edit" permission restrictions!'));	
 	}
-
 	return $page;
 }
 
@@ -113,12 +109,13 @@ function show_restrict_php_add_error($page) {
 function restrict_php_part(&$part) {
 	$oldpart = PagePart::findByIdFrom('PagePart', $part->id);
 	$codeFound = FALSE;
-
-	$codeFound = (has_php_code($part->content) || has_php_code($oldpart->content));
-
+	$codeExisted = has_php_code($oldpart->content);
+	$codeAdded = has_php_code($part->content);
+	$codeFound = $codeAdded || $codeExisted;
+	
 	if ($codeFound) {
 		if ($oldpart->content !== $part->content) { // the content has changed
-			if (!AuthUser::hasPermission('edit_parts_php')) {
+			if (!AuthUser::hasPermission('edit_parts_php') ) { // if user CANNOT edit php
 				$restrParts = Flash::get('php_restricted_parts');
 				$restrParts[] = $part->name;
 				Flash::setNow('php_restricted_parts', $restrParts);
@@ -130,21 +127,36 @@ function restrict_php_part(&$part) {
 }
 
 function has_php_code($text) {
-	$codeFound = TRUE;
-
-	// SEARCHING FOR VARIANTS OF "script language=php" PHP opening tags
 	// WARNING!!! This is not guaranteed to be safe!!!
 	// IF YOU FIND ANY VULNERABILITIES PLEASE LET ME KNOW	
-	$pattern = '#\<[\s]*script[\s]+lang.*=.*[\'"\s]*php[\s\'"]*\>#si';
-	if (preg_match($pattern, $text) !== 1) {
+	try {
 		$codeFound = FALSE;
-	}
+		
+		// SEARCHING FOR VARIANTS OF "script language=php" PHP opening tags
+		$pattern1 = '#\<[\s]*script[\s]+lang.*=.*[\'"\s]*php[\s\'"]*\>#si';
 
-	// SEARCHING FOR standard and short and ASP style PHP opening tags	
-	$pattern = '#\<(\?|%)(?!xml)#si';
+		// SEARCHING FOR standard and short and ASP style PHP opening tags
+		// omitting xml opening tags 
+		// only exact "<?xml" will pass (without space beetween ? and "xml")
+		$pattern2 = '#\<(\?|%)(?!xml)#si';
 
-	if (preg_match($pattern, $text) !== 1) {
-		$codeFound = FALSE;
+		$result1 = preg_match($pattern1, $text);
+		if (($result1 === 1) ||  // found occurence of long opening tag
+			($result1 === FALSE)) // or search error occurred
+		{
+			$codeFound = TRUE;
+		}
+
+
+		$result2 = preg_match($pattern2, $text);
+		if (($result2 === 1) ||  // found occurence of standard/short opening tag
+			($result2 === FALSE)) // or search error occurred
+		{
+			$codeFound = TRUE;
+		}
+		return $codeFound;
+	} catch (Exception $exc) {	// something went wrong
+	//echo $exc->getTraceAsString();
+	return TRUE;			// so we assume the code was found!
 	}
-	return $codeFound;
 }
