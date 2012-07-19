@@ -16,7 +16,7 @@ class RestrictPhpController extends PluginController {
 		$lang = ( $user = AuthUser::getRecord() ) ? strtolower($user->language) : 'en';
 
 		if (!file_exists(PLUGINS_ROOT . DS . 'restrict_php' . DS . 'views/documentation/' . $lang . '.php')) {
-			$this->display('restrict_php/views/documentation/en', array('message' => $message));
+			$this->display('restrict_php/views/documentation/en');
 		}
 		else
 			$this->display('restrict_php/views/documentation/' . $lang);
@@ -24,6 +24,6 @@ class RestrictPhpController extends PluginController {
 	
 	function index() {
 		redirect(get_url('plugin/restrict_php/documentation'));
-	}	
+	}
 
 }
