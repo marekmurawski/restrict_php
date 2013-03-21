@@ -36,6 +36,15 @@ Changelog
 
 - Compatibility with **Part_Revisions** plugin - Restrict PHP is always run first
 
+##### 0.0.4
+
+- bugfixes
+
+##### 0.0.2
+
+- prevent unauthorised users from removing page parts containing PHP code
+- allow **xml opening tags** to be edited
+
 License
 -------
 
