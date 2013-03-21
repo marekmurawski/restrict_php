@@ -29,6 +29,13 @@ A specific user can be granted PHP editing permission in two ways:
 - by assigning ***Php Editor*** role to a selected user individually in standard Wolf Users administration tab
 - by assigning ***edit_parts_php*** permission to an existing role using ***Roles Manager*** plugin by andrewmman (found in Wolf CMS repository)
 
+Changelog
+---------
+
+###### 0.0.6
+
+- Compatibility with **Part_Revisions** plugin - Restrict PHP is always run first
+
 License
 -------
 
