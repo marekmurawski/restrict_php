@@ -1,5 +1,5 @@
-Restrict PHP plugin
-===================
+Restrict PHP plugin for Wolf CMS
+================================
 
 This plugin provides way to restrict certain users or group of users (roles) from creating and editing PHP code in page parts. Essentially it checks for existence of PHP opening tags in page part content while saving the page part data.
 
@@ -31,6 +31,11 @@ A specific user can be granted PHP editing permission in two ways:
 
 Changelog
 ---------
+
+###### 0.0.7
+
+- Wolf CMS 0.7.6 compatibility
+- compatible with MultiEdit 0.3.1
 
 ###### 0.0.6
 
