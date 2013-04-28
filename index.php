@@ -29,7 +29,7 @@ Plugin::setInfos(array(
             'require_wolf_version' => '0.7.3' // 0.7.5SP-1 fix -> downgrading requirement to 0.7.3
 ));
 
-Plugin::addController('restrict_php', __('Restrict PHP'), 'administrator', true);
+Plugin::addController('restrict_php', 'Restrict PHP', 'administrator', false);
 
 /**
  * If PART REVISIONS plugin is enabled
